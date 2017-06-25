@@ -6,12 +6,7 @@ module MqttPush
 #    可在对应class中通过定义can_push?方法指定推送规则,
 #    如果不需要定义规则则不用定义can_push?
 # 2. push_message_json_data 定义json数据
-  extend ActiveSupport::Concern
   PUSH_NOTIFY_APP_KEY = '6727fb0922117931bb65a48ee27dc0d9'
-
-  included do
-    after_commit :push_notify, on: [:create, :update]
-  end
 
   def push_notify
     check_auth = self.respond_to?(:can_push?) ? can_push? : true
@@ -57,8 +52,5 @@ module MqttPush
   def topic(u_id)
     "/users/#{u_id}/message"
   end
-
-end
-
 
 end
